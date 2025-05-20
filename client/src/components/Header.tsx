@@ -102,7 +102,7 @@ export default function Header() {
                 </nav>
                 <a
                     href="tel:+911234567890"
-                    className="ml-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 text-sm"
+                    className="ml-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 text-sm hidden md:flex"
                 >
                     📞 Call Now
                 </a>
