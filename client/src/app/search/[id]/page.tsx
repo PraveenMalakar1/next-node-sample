@@ -2,23 +2,25 @@ import VehicleDetailClient from "@/components/VehicleDetailClient";
 import { Car } from "@/context/CarContext";
 
 export type PageProps = {
-    params: {
-        id: string;
-    };
+  params: {
+    id: string;
+  };
 };
 
-
 export default async function VehicleDetailPage({
-    params,
+  params,
 }: {
-    params: Promise<{ id: string }>
+  params: Promise<{ id: string }>;
 }) {
-    const { id } = await params;
-    const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/instock-cars");
-    const data = await res.json();
-    const vehicle = data.data.vehicles.find((v: Car) => v.id.toString() === id) ?? null;
+  const { id } = await params;
+  const res = await fetch(
+    process.env.NEXT_PUBLIC_API_URL + "/api/instock-cars"
+  );
+  const data = await res.json();
+  const vehicle =
+    data.data.vehicles.find((v: Car) => v.id.toString() === id) ?? null;
 
-    return <VehicleDetailClient initialCar={vehicle} />;
+  return <VehicleDetailClient initialCar={vehicle} />;
 }
 
 // This function is used to generate metadata for the page
@@ -47,4 +49,3 @@ export default async function VehicleDetailPage({
 // Uncomment the above function if you want to pre-render specific paths at build time
 // This is useful for SEO and performance, but it requires knowing the IDs in advance
 // and may not be suitable for all use cases, especially if the data changes frequently.
-
