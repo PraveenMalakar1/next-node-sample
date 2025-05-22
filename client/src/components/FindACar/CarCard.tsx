@@ -26,7 +26,7 @@ export default function CarCard({ car }: CarCardProps) {
             </div>
           </div>
         </div>
-        <div className="w-full md:w-3/5 p-4">
+        <div className="w-full md:w-3/5 px-4">
           <div className="flex justify-between items-start">
             <div>
               <div className="inline-block bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded mb-2">
