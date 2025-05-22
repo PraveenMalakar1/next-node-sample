@@ -64,8 +64,8 @@ const initialState: State = {
       subtitle: "C220d AMG Line Premium 4dr 9G-Tronic",
       condition: "Available",
       images: [
-        "/dummy-car-image.png",
         "/dummy-car-image-three.png",
+        "/dummy-car-image.png",
         "/dummy-car-image-two.png",
       ],
       fuelType: "Diesel",

@@ -1,5 +1,6 @@
 import ImageSlider from "@/components/common-components/image-slider";
 import { Car } from "@/context/CarContext";
+import Image from "next/image";
 
 interface CarCardProps {
   car: Car;
@@ -10,9 +11,16 @@ export default function CarCard({ car }: CarCardProps) {
     <div className="bg-white rounded-lg shadow-sm overflow-hidden">
       <div className="flex flex-col md:flex-row">
         <div className="relative w-full md:w-2/5 h-64">
-          <div className="absolute top-2 right-2 z-10">^</div>
+          <div className="absolute top-2 right-2 z-100">
+            <Image
+              src={"/icons/heart-icon.svg"}
+              alt="Add to Compare"
+              width={20}
+              height={20}
+            />
+          </div>
           <ImageSlider images={car.images} alt={car.title} />
-          <div className="absolute bottom-0 right-0 p-2 z-10">
+          <div className="absolute bottom-0 right-0 p-2 z-100">
             <div className="text-xs text-white bg-black/50 px-2 py-1 rounded-full">
               {car.views} views
             </div>

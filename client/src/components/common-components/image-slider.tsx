@@ -41,17 +41,17 @@ export default function ImageSlider({ images, alt }: ImageSliderProps) {
   }, [currentIndex, slides.length]);
 
   // Auto-slide every 2 seconds
-  useEffect(() => {
-    if (slides.length <= 1) return;
+  // useEffect(() => {
+  //   if (slides.length <= 1) return;
 
-    const interval = setInterval(() => {
-      if (!isAnimating) {
-        nextSlide();
-      }
-    }, 2000);
+  //   const interval = setInterval(() => {
+  //     if (!isAnimating) {
+  //       nextSlide();
+  //     }
+  //   }, 2000);
 
-    return () => clearInterval(interval);
-  }, [slides, isAnimating]);
+  //   return () => clearInterval(interval);
+  // }, [slides, isAnimating]);
 
   // Effect to handle transition end
   useEffect(() => {
@@ -101,20 +101,20 @@ export default function ImageSlider({ images, alt }: ImageSliderProps) {
   return (
     <div className="relative w-full h-full overflow-hidden">
       {/* Left Arrow */}
-      <div
-        className="absolute left-2 top-1/2 -translate-y-1/2 z-20 bg-white/70 rounded-full p-1 cursor-pointer hover:bg-white"
+      <span
+        className="absolute left-2 top-1/2 -translate-y-1/2 z-200 rounded-full p-1 cursor-pointer text-white text-2xl"
         onClick={goToPrevious}
       >
         {"<"}
-      </div>
+      </span>
 
       {/* Right Arrow */}
-      <div
-        className="absolute right-2 top-1/2 -translate-y-1/2 z-20 bg-white/70 rounded-full p-1 cursor-pointer hover:bg-white"
+      <span
+        className="absolute right-2 top-1/2 -translate-y-1/2 z-200 rounded-full p-1 cursor-pointer text-white text-2xl"
         onClick={nextSlide}
       >
         {">"}
-      </div>
+      </span>
 
       {/* Images with fade animation */}
       <div className="relative w-full h-full">
@@ -149,7 +149,7 @@ export default function ImageSlider({ images, alt }: ImageSliderProps) {
       </div>
 
       {/* Dots - showing only for the actual images (not the clones) */}
-      <div className="absolute bottom-2 left-0 right-0 flex justify-center space-x-2 z-20">
+      <div className="absolute bottom-2 left-0 right-0 flex justify-center space-x-2 z-200">
         {images.map((_, index) => (
           <div
             key={index}
