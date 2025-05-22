@@ -7,7 +7,7 @@ import Image from "next/image";
 
 const menuItems = [
   { label: "Home", href: "/" },
-  { label: "Find a Car", href: "/find" },
+  { label: "Find a Car", href: "/search" },
   { label: "Finance", href: "/finance" },
   { label: "Car Care", href: "/car-care" },
   { label: "Part Exchange Your Car", href: "/part-exchange" },

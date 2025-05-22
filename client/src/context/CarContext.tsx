@@ -10,15 +10,26 @@ import React, {
 
 export type Car = {
   id: number | string;
-  make: string;
-  model: string;
-  vrm: string;
+  make?: string;
+  model?: string;
+  vrm?: string;
   colour?: string;
   mileage?: number;
   location?: string;
   variant?: string;
   status?: string;
-  activeAdvertPriceAmount: number;
+  activeAdvertPriceAmount?: number;
+  title: string;
+  subtitle?: string;
+  condition?: string;
+  images: string[];
+  fuelType?: string;
+  transmission?: string;
+  engineSize?: string;
+  monthlyPrice?: number;
+  totalPrice?: number;
+  viewPrice?: string;
+  views?: number;
 };
 
 type State = {
@@ -31,7 +42,57 @@ type Action =
   | { type: "SET_SELECTED_CAR_ID"; payload: string | null };
 
 const initialState: State = {
-  cars: [],
+  cars: [
+    {
+      id: "1",
+      title: "MERCEDES-BENZ C-CLASS",
+      subtitle: "C220d AMG Line Premium 4dr 9G-Tronic",
+      condition: "Available",
+      images: ["/dummy-car-image.png", "/dummy-car-image-two.png"],
+      fuelType: "Diesel",
+      transmission: "Automatic",
+      mileage: 10000,
+      engineSize: "2.0 L",
+      monthlyPrice: 348,
+      totalPrice: 20300,
+      viewPrice: "20,300",
+      views: 5,
+    },
+    {
+      id: "2",
+      title: "MERCEDES-BENZ C-CLASS",
+      subtitle: "C220d AMG Line Premium 4dr 9G-Tronic",
+      condition: "Available",
+      images: [
+        "/dummy-car-image.png",
+        "/dummy-car-image-three.png",
+        "/dummy-car-image-two.png",
+      ],
+      fuelType: "Diesel",
+      transmission: "Automatic",
+      mileage: 10000,
+      engineSize: "2.0 L",
+      monthlyPrice: 348,
+      totalPrice: 20300,
+      viewPrice: "20,300",
+      views: 5,
+    },
+    {
+      id: "3",
+      title: "MERCEDES-BENZ C-CLASS",
+      subtitle: "C220d AMG Line Premium 4dr 9G-Tronic",
+      condition: "Available",
+      images: ["/dummy-car-image-two.png", "/dummy-car-image-three.png"],
+      fuelType: "Diesel",
+      transmission: "Automatic",
+      mileage: 10000,
+      engineSize: "2.0 L",
+      monthlyPrice: 348,
+      totalPrice: 20300,
+      viewPrice: "20,300",
+      views: 5,
+    },
+  ],
   selectedCarId: null,
 };
 
