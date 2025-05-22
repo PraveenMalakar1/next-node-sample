@@ -12,7 +12,7 @@ export default function ImageSlider({ images, alt }: ImageSliderProps) {
   const [slides, setSlides] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(1); // Start at index 1 (first real slide)
   const [isAnimating, setIsAnimating] = useState(false);
-  const [direction, setDirection] = useState<"next" | "prev">("next");
+  const [nextIndex, setNextIndex] = useState<number | null>(null);
 
   // Create the infinite slider array with cloned first and last slides
   useEffect(() => {
@@ -31,15 +31,13 @@ export default function ImageSlider({ images, alt }: ImageSliderProps) {
   const handleSlideTransitionEnd = useCallback(() => {
     if (currentIndex === 0) {
       // If we're at the cloned last slide (index 0), jump to the real last slide without animation
-      setIsAnimating(false);
       setCurrentIndex(slides.length - 2);
     } else if (currentIndex === slides.length - 1) {
       // If we're at the cloned first slide (last index), jump to the real first slide without animation
-      setIsAnimating(false);
       setCurrentIndex(1);
-    } else {
-      setIsAnimating(false);
     }
+    setIsAnimating(false);
+    setNextIndex(null);
   }, [currentIndex, slides.length]);
 
   // Auto-slide every 2 seconds
@@ -57,24 +55,27 @@ export default function ImageSlider({ images, alt }: ImageSliderProps) {
 
   // Effect to handle transition end
   useEffect(() => {
-    if (isAnimating) {
-      const timer = setTimeout(handleSlideTransitionEnd, 500);
+    if (isAnimating && nextIndex !== null) {
+      const timer = setTimeout(() => {
+        setCurrentIndex(nextIndex);
+        setTimeout(handleSlideTransitionEnd, 50);
+      }, 500); // Match this with the CSS transition duration
       return () => clearTimeout(timer);
     }
-  }, [isAnimating, handleSlideTransitionEnd]);
+  }, [isAnimating, nextIndex, handleSlideTransitionEnd]);
 
   const goToPrevious = () => {
     if (isAnimating || slides.length <= 1) return;
-    setDirection("prev");
     setIsAnimating(true);
-    setCurrentIndex((prevIndex) => prevIndex - 1);
+    const prevIndex = currentIndex - 1;
+    setNextIndex(prevIndex);
   };
 
   const nextSlide = () => {
     if (isAnimating || slides.length <= 1) return;
-    setDirection("next");
     setIsAnimating(true);
-    setCurrentIndex((prevIndex) => prevIndex + 1);
+    const next = currentIndex + 1;
+    setNextIndex(next);
   };
 
   const goToSlide = (slideIndex: number) => {
@@ -84,9 +85,8 @@ export default function ImageSlider({ images, alt }: ImageSliderProps) {
 
     if (actualIndex === currentIndex) return;
 
-    setDirection(actualIndex > currentIndex ? "next" : "prev");
     setIsAnimating(true);
-    setCurrentIndex(actualIndex);
+    setNextIndex(actualIndex);
   };
 
   // If no slides, show placeholder
@@ -116,29 +116,36 @@ export default function ImageSlider({ images, alt }: ImageSliderProps) {
         {">"}
       </div>
 
-      {/* Images with animation */}
+      {/* Images with fade animation */}
       <div className="relative w-full h-full">
-        {slides.map((image, index) => (
-          <div
-            key={index}
-            className={`absolute top-0 left-0 w-full h-full transition-all duration-500 ease-in-out ${
-              index === currentIndex
-                ? "opacity-100 z-10 translate-x-0 scale-100"
-                : "opacity-0 z-0 scale-95 " +
-                  (index < currentIndex
-                    ? "-translate-x-full"
-                    : "translate-x-full")
-            }`}
-          >
-            <Image
-              src={image || "/placeholder.svg"}
-              alt={`${alt} - Image ${index}`}
-              fill
-              className="object-cover"
-              priority={index === currentIndex}
-            />
-          </div>
-        ))}
+        {slides.map((image, index) => {
+          // Determine if this slide should be visible
+          const isActive = index === currentIndex;
+          const isNext = nextIndex !== null && index === nextIndex;
+
+          return (
+            <div
+              key={index}
+              className={`absolute top-0 left-0 w-full h-full transition-all duration-500 ease-in-out ${
+                isActive && !isAnimating
+                  ? "opacity-100 z-10"
+                  : isNext
+                  ? "opacity-0 z-20" // Next slide starts invisible but on top
+                  : "opacity-0 z-0"
+              } ${isAnimating && isActive ? "opacity-0" : ""} ${
+                isAnimating && isNext ? "opacity-100" : ""
+              }`}
+            >
+              <Image
+                src={image || "/placeholder.svg"}
+                alt={`${alt} - Image ${index}`}
+                fill
+                className="object-cover"
+                priority={isActive || isNext}
+              />
+            </div>
+          );
+        })}
       </div>
 
       {/* Dots - showing only for the actual images (not the clones) */}
